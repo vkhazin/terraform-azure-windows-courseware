@@ -1,29 +1,29 @@
-# README #
+# Terraform Azure Setup
 
-This README would normally document whatever steps are necessary to get your application up and running.
 
-### What is this repository for? ###
+## Overview
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* Create terraform templates to setup Azure
+* One Virtual Network
+* Internet Access
+* One public subnet
+* One private subnet
+* One security group with RDP incoming port
+* One Windows Server 2010 instance with dynamic public IP
+* Disks: 
+```
+C: Os, assigned letter and size defined in variables
+E: Empty, assigned letter and size defined in variables
+F: Empty, assigned letter and size defined in variables
+P: Os pagefile, assigned letter and size defined in variables
+T: Empty, assigned letter and size defined in variables
+```
+* One file per template
+* Meaningful file names
+* Use variables - nothing is hard-coded in the templates
+* PowerShell using https://shell.azure.com
+* Document step-by-step setup to run the Terraform on a brand new on Azure Shell environment
 
-### How do I get set up? ###
+## Format
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+https://github.com/vkhazin/multicloud-courseware/blob/master/content/course-intro/lab-jumpcloud.md
