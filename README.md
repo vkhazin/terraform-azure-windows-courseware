@@ -9,7 +9,7 @@
 * One public subnet
 * One private subnet
 * One security group with RDP incoming port
-* One Windows Server 2010 instance with dynamic public IP
+* One Windows Server 2016 instance with dynamic public IP
 * Disks: 
 ```
 C: Os, assigned letter and size defined in variables
