@@ -24,6 +24,11 @@ T: Empty, assigned letter and size defined in variables
 * PowerShell using https://shell.azure.com
 * Document step-by-step setup to run the Terraform on a brand new on Azure Shell environment
 
-## Format
+## Development
 
-https://github.com/vkhazin/multicloud-courseware/blob/master/content/course-intro/lab-jumpcloud.md
+* Clone the repository: `git clone https://vkhazin@bitbucket.org/vk-crs/terraform-azure-bto.git`
+* Initialize providers: `terraform init`
+* Validate configuration: `terraform validate`
+* Preview changes: `terraform plan -var-file=./envs/azure-poc.tfvars`
+* Create/Update an environment: `terraform apply -var-file=./envs/azure-poc.tfvars --auto-approve`
+* Destroy the environment: `terraform destroy -var-file=./envs/azure-poc.tfvars --auto-approve`
