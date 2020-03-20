@@ -51,14 +51,13 @@ output "network_private_subnet_id" {
 # Sql Server Variables
 ###############################################################################
 # Limited to 15 characters long
-variable "sqlserver_vm_hostname" {
-}
+variable "sqlserver_vm_hostname" {}
+variable "sqlserver_vm_size" {}
+variable "sqlserver_disk_os_size" {}
 
-variable "sqlserver_vm_size" {
-}
-
+# Windows assings drive letters in order, where E is allocated to a DVD drive
 variable "disk_sqldata_letter" {
-  default     = "E"
+  default     = "F"
 }
 
 variable "disk_sqldata_label" {
@@ -69,32 +68,28 @@ variable "sqlserver_disk_sqldata_size" {
 }
 
 variable "disk_sqllogs_letter" {
-  default     = "F"
+  default     = "G"
 }
 
 variable "disk_sqllogs_label" {
   default     = "Sql Logs"
 }
 
-variable "sqlserver_disk_sqllogs_size" {
-}
+variable "sqlserver_disk_sqllogs_size" {}
 
 variable "disk_tempdb_letter" {
-  default     = "T"
+  default     = "H"
 }
 
 variable "disk_tempdb_label" {
   default     = "Sql TempDB"
 }
 
-variable "sqlserver_disk_tempdb_size" {
-}
+variable "sqlserver_disk_tempdb_size" {}
 
-variable "sqlserver_vm_sku" {
-}
+variable "sqlserver_vm_sku" {}
 
-variable "sqlserver_vm_admin_username" {
-}
+variable "sqlserver_vm_admin_username" {}
 
 output "sqlserver_vm_id" {
   value = azurerm_windows_virtual_machine.sqlserver-vm.id

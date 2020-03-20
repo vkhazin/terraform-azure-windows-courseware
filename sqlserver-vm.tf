@@ -1,4 +1,15 @@
 locals {
+  script_raw = <<SCRIPT
+    Start-Transcript -Path 'C:/SetupLog/terraform.log' -NoClobber;
+    Get-Disk | Where partitionstyle -eq 'raw' | Initialize-Disk -PartitionStyle MBR -PassThru | New-Partition -AssignDriveLetter -UseMaximumSize | Format-Volume -FileSystem NTFS -Confirm:$false;
+    Set-Volume -DriveLetter ${var.disk_sqldata_letter}  -NewFileSystemLabel "${var.disk_sqldata_label}";
+    Set-Volume -DriveLetter ${var.disk_sqllogs_letter}  -NewFileSystemLabel "${var.disk_sqllogs_label}";
+    Set-Volume -DriveLetter ${var.disk_tempdb_letter}   -NewFileSystemLabel "${var.disk_tempdb_label}";
+    Stop-Transcript;
+    exit 0;
+  SCRIPT
+
+  script = "${replace(local.script_raw, "\n", "")}"
   # Init Log
   log_start = "Start-Transcript -Path 'C:/SetupLog/terraform.txt' -NoClobber"
 
@@ -108,6 +119,7 @@ resource "azurerm_windows_virtual_machine" "sqlserver-vm" {
     name                 = "sqlserver-${var.sqlserver_vm_hostname}-os-disk"
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
+    disk_size_gb         = var.sqlserver_disk_os_size
   }
 
   source_image_reference {
@@ -206,12 +218,16 @@ resource "azurerm_virtual_machine_extension" "sqlserver-vm-extension" {
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"  
+  # settings = <<SETTINGS
+  # {
+  #   "commandToExecute": "powershell.exe -Command \"${local.disk_config}\""
+  # }
+  # SETTINGS
   settings = <<SETTINGS
   {
-    "commandToExecute": "powershell.exe -Command \"${local.disk_config}\""
+    "commandToExecute": "powershell.exe -Command \"${local.script}\""
   }
   SETTINGS
-
   tags = { 
     environment = var.environment
   }
