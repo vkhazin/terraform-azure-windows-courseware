@@ -10,24 +10,6 @@ locals {
   SCRIPT
 
   script = "${replace(local.script_raw, "\n", "")}"
-  # Init Log
-  log_start = "Start-Transcript -Path 'C:/SetupLog/terraform.txt' -NoClobber"
-
-  # Initialize Hard Drives
-  disk_01 = "Get-Disk | Where partitionstyle -eq 'raw' | Initialize-Disk -PartitionStyle MBR -PassThru | New-Partition -AssignDriveLetter -UseMaximumSize | Format-Volume -FileSystem NTFS -Confirm:$false"
-
-  # Configure Disk Volumen Labels
-  disk_02 = "Set-Volume -DriveLetter ${var.disk_sqllogs_letter} -NewFileSystemLabel '${var.disk_sqllogs_label}'"
-  disk_03 = "Set-Volume -DriveLetter ${var.disk_tempdb_letter} -NewFileSystemLabel '${var.disk_tempdb_label}'"
-  
-  # stop log  
-  log_end = "Stop-Transcript"
-
-  # exit code  
-  exit_code = "exit 0"
-
-  # Create PowerShell Command 
-  disk_config = "${local.log_start}; ${local.disk_01}; ${local.disk_02}; ${local.disk_03}; ${local.log_end}; ${local.exit_code};"
 }
 
 # Generate random password
@@ -218,11 +200,6 @@ resource "azurerm_virtual_machine_extension" "sqlserver-vm-extension" {
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"  
-  # settings = <<SETTINGS
-  # {
-  #   "commandToExecute": "powershell.exe -Command \"${local.disk_config}\""
-  # }
-  # SETTINGS
   settings = <<SETTINGS
   {
     "commandToExecute": "powershell.exe -Command \"${local.script}\""
