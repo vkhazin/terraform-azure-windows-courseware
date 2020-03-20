@@ -1,7 +1,7 @@
 # Terraform Azure Setup
 
 
-## Overview
+## Requirements
 
 * Create terraform templates to setup Azure
 * One Virtual Network
@@ -18,15 +18,17 @@ F: Empty, assigned letter and size defined in variables
 P: Os pagefile, assigned letter and size defined in variables
 T: Empty, assigned letter and size defined in variables
 ```
-* One file per template
-* Meaningful file names
-* Use variables - nothing is hard-coded in the templates
-* PowerShell using https://shell.azure.com
-* Document step-by-step setup to run the Terraform on a brand new on Azure Shell environment
 
-## Development
+## Discoveries
 
+* Windows on Azures uses temporary storage for the pagefile instead of a dedicated drive
+* Windows names drives in order, can be renamed, but maybe not worthwhile
+
+## Deployments
+
+* Login to https://shell.azure.com or install [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) and [Terraform](https://www.terraform.io/downloads.html) locally
 * Clone the repository: `git clone https://vkhazin@bitbucket.org/vk-crs/terraform-azure-bto.git`
+* Login to azure cli: `az login`
 * Initialize providers: `terraform init`
 * Validate configuration: `terraform validate`
 * Preview changes: `terraform plan -var-file=./envs/azure-poc.tfvars`
